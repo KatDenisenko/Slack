@@ -10,6 +10,7 @@ state = {
     email:'',
     password: '',
     passwordConfirm: '',
+    errors:[],
 }
 
 handlerChange=(e)=> {
@@ -20,14 +21,51 @@ handlerChange=(e)=> {
     })
 }
 handleSubmit=(e)=>{
+    
     e.preventDefault();
+    if (this.isFormValid()) {
     firebase
     .auth()
     .createUserWithEmailAndPassword(this.state.email, this.state.password)
     .then(createdUser=>{console.log(createdUser);
     }).catch(err=>{
         console.error(err);
-    })
+    })}
+}
+isFormEmpty = () => { 
+    return this.state.username.length!==0 && this.state.email.length!==0&&this.state.password.length!==0 && this.state.passwordConfirm.length!==0
+}
+ 
+
+isPasswordValid=()=>{
+ return this.state.password===this.state.passwordConfirm;}
+
+isFormValid=()=>{
+    let errors=[];
+    let error;
+    if (!this.isFormEmpty()) {
+        error = {
+            message:'Fill in all fields'
+        };
+        this.setState({
+            errors: errors.concat(error)
+        })
+        return false;
+    } else if (!this.isPasswordValid()){
+        error = {
+            message:'Password is invalid'
+        };
+        this.setState({
+            errors: errors.concat(error)
+        })
+        return false;
+    } else {
+        this.setState({
+            errors: []
+        })
+        return true;
+    }
+
 
 }
 
@@ -86,6 +124,14 @@ handleSubmit=(e)=>{
 
             </Segment>
             </Form>
+            {this.state.errors.length>0 && (
+                <Message error>
+                <h3>Error</h3>
+                {this.state.errors.map(el => <p key={el.message}>{el.message}</p>)}
+                </Message>
+            )
+
+            }
             <Message>
                 Already a user?
                 <NavLink to='/login'>&nbsp;&nbsp;Login</NavLink>
