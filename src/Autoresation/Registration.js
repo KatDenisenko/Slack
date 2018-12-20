@@ -30,6 +30,7 @@ handleSubmit=(e)=>{
     .then(createdUser=>{console.log(createdUser);
     }).catch(err=>{
         console.error(err);
+        this.setState({errors: this.state.errors.concat(err)})
     })}
 }
 isFormEmpty = () => { 
@@ -65,8 +66,11 @@ isFormValid=()=>{
         })
         return true;
     }
+}
 
-
+handleInput =(errors, inputName) => {
+    return errors.some(el=>el.message.toLowerCase().includes(inputName)) ?
+    'error':''
 }
 
     render() {
@@ -88,7 +92,8 @@ isFormValid=()=>{
             placeholder='Username'
             type='text'
             onChange={this.handlerChange}
-            value={this.state.username}/>
+            value={this.state.username}
+            className={this.handleInput(this.state.errors, 'username')}/>
 
 <Form.Input
             fluid
@@ -98,7 +103,8 @@ isFormValid=()=>{
             placeholder='Mail'
             type='email'
             onChange={this.handlerChange}
-            value={this.state.email}/>
+            value={this.state.email}
+            className={this.handleInput(this.state.errors, 'email')}/>
 
 <Form.Input
             fluid
@@ -108,7 +114,8 @@ isFormValid=()=>{
             placeholder='Password'
             type='password'
             onChange={this.handlerChange}
-            value={this.state.password}/>
+            value={this.state.password}
+            className={this.handleInput(this.state.errors, 'password')}/>
 
 <Form.Input
             fluid
@@ -118,7 +125,8 @@ isFormValid=()=>{
             placeholder='Password Confirm'
             type='password'
             onChange={this.handlerChange}
-            value={this.state.passwordConfirm}/>
+            value={this.state.passwordConfirm}
+            className={this.handleInput(this.state.errors, 'password')}/>
 
             <Button color='blue' fluid size='large'>Submit</Button>
 
