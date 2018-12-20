@@ -18,7 +18,10 @@
         ( grid - grid.column Header Form -Form input, Button, Message )
  11) Комитим изменения в ветке (git add . git commit -m '', git push --set-upstream origin registerForm)
  12) создаём новую ветку git checkout -b registerUser
-13) в файле Registration.js в state записываем поля  инпутов, пишим функцию  HandleCgange 
+13) в файле Registration.js в state записываем поля  инпутов, пишим функцию  HandleCgange, вешаем её на каждый инпут, также добавляем поле value={this.state.username}.Также пишим функцию handleSubmit которую вешаем на кнопку Submit.
+14) Комитим изменения в ветке (git add . git commit -m '', git push --set-upstream origin registerForm)
+ 15) создаём новую ветку git checkout -b 'formValidation';
+
 
 
  
