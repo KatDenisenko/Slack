@@ -11,6 +11,14 @@ state = {
     password: '',
     passwordConfirm: '',
     errors:[],
+    userRef: firebase.database().ref('users')
+}
+
+saveUser=createdUser=>{
+    return this.state.userRef.child(createdUser.user.uid).set({
+        name: createdUser.user.displayName,
+        avatar:createdUser.user.photoURL,
+    })
 }
 
 handlerChange=(e)=> {
@@ -28,6 +36,18 @@ handleSubmit=(e)=>{
     .auth()
     .createUserWithEmailAndPassword(this.state.email, this.state.password)
     .then(createdUser=>{console.log(createdUser);
+        createdUser.user.updateProfile({
+            displayName:this.state.username,
+            photoURL:'http://www.youloveit.ru/uploads/posts/2016-03/1457531985_youloveit_ru_zveropolis_avatarki02.jpg'
+             //http://gravatar.com/avatar/$%7Bmd5(createdUser.user.email)%7D?d=identicon- рандомно генерирует адресса аватарок
+        })
+        .then(()=>{
+            this.saveUser(createdUser).then(()=>console.log('object')).catch(err=>{
+                console.error(err);
+                this.setState({errors:this.state.errors.concat(err)})
+            })
+        })        
+       
     }).catch(err=>{
         console.error(err);
         this.setState({errors: this.state.errors.concat(err)})
