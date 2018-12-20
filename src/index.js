@@ -5,6 +5,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter} from 'react-router-dom';
 import Root from './Root/Root'
+import 'semantic-ui-css/semantic.min.css'
 
 ReactDOM.render(
 <BrowserRouter>
