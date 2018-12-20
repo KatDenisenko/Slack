@@ -1,9 +1,36 @@
 import React, { Component } from 'react';
 import {NavLink} from 'react-router-dom';
-
+import firebase from '../fireBase';
 import { Grid, Header, Icon, Form, Message, Segment, Button } from 'semantic-ui-react';
 
+
 class Registration extends Component {
+state = {
+    username:'',
+    email:'',
+    password: '',
+    passwordConfirm: '',
+}
+
+handlerChange=(e)=> {
+    let key = e.target.name;
+    let value = e.target.value;
+    this.setState({
+        [key]:value,
+    })
+}
+handleSubmit=(e)=>{
+    e.preventDefault();
+    firebase
+    .auth()
+    .createUserWithEmailAndPassword(this.state.email, this.state.password)
+    .then(createdUser=>{console.log(createdUser);
+    }).catch(err=>{
+        console.error(err);
+    })
+
+}
+
     render() {
         return (
             <Grid textAlign='center' verticalAlign='middle' className='app'>
@@ -12,8 +39,8 @@ class Registration extends Component {
             <Icon name='comment alternate' color = 'blue'/>
             Register for Slack Clone
             </Header>
-            <Form size='large'>
-            <Segment stacked>
+            <Form size='large' onSubmit={this.handleSubmit}>
+            <Segment>
 
             <Form.Input
             fluid
@@ -21,7 +48,9 @@ class Registration extends Component {
             icon='user'
             iconPosition='left'
             placeholder='Username'
-            type='text'/>
+            type='text'
+            onChange={this.handlerChange}
+            value={this.state.username}/>
 
 <Form.Input
             fluid
@@ -29,7 +58,9 @@ class Registration extends Component {
             icon='mail'
             iconPosition='left'
             placeholder='Mail'
-            type='email'/>
+            type='email'
+            onChange={this.handlerChange}
+            value={this.state.email}/>
 
 <Form.Input
             fluid
@@ -37,7 +68,9 @@ class Registration extends Component {
             icon='lock'
             iconPosition='left'
             placeholder='Password'
-            type='password'/>
+            type='password'
+            onChange={this.handlerChange}
+            value={this.state.password}/>
 
 <Form.Input
             fluid
@@ -45,7 +78,9 @@ class Registration extends Component {
             icon='repeat'
             iconPosition='left'
             placeholder='Password Confirm'
-            type='password'/>
+            type='password'
+            onChange={this.handlerChange}
+            value={this.state.passwordConfirm}/>
 
             <Button color='blue' fluid size='large'>Submit</Button>
 
