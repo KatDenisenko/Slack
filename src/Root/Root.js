@@ -6,6 +6,7 @@ import Registration from '../Autoresation/Registration';
 import firebase from 'firebase';
 import {connect} from 'react-redux';
 import {setUser} from '../redux/Actions/setUserAction'
+import Spiner from '../Spiner/Spiner';
 
 class Root extends Component {
     componentDidMount() {
@@ -18,16 +19,22 @@ class Root extends Component {
         })
       }
     render() {
-        return (
-            <div>
+        return this.props.isLoading? <Spiner/> : (
+           
         <Switch>
           <Route exact path='/' component = {App}/>
           <Route path='/login' component = {Login}/>
           <Route path='/registr' component = {Registration}/>
           {/* <Route path='/contact' render = {(props)=> <Contact {...props} text = {this.state.headerText}/>}/> */}
-        </Switch>
-            </div>
-        );
+        </Switch>);
+           
+        
+    }
+}
+
+function MSTP (state) {
+    return {
+        isLoading:state.user.isLoading,
     }
 }
 
@@ -38,4 +45,4 @@ function MDTP (dispatch) {//MDTP = mapDispatchToProps
         }
     }
 }
-export default  withRouter(connect(null,MDTP)(Root));//withRouter HOC который принимает аргументом компонент и даёт этому объекту доступ к истории браузера history
+export default  withRouter(connect(MSTP,MDTP)(Root));//withRouter HOC который принимает аргументом компонент и даёт этому объекту доступ к истории браузера history
