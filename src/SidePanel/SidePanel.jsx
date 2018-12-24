@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Menu } from 'semantic-ui-react';
 import UserPanel from '../UserPanel/UserPanel';
+import Chanels from '../Chanels/Chanels';
 
 class SidePanel extends Component {
     render() {
@@ -12,6 +13,7 @@ class SidePanel extends Component {
             vertical
             style={{background:'#4c3c4c', fontSize: '1.2rem',}}>
             <UserPanel/>
+            <Chanels/>
             </Menu>
            
         );
