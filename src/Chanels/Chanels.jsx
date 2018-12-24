@@ -4,9 +4,13 @@ import React, { Component } from 'react';
 import { Menu, Icon, Modal, Form, Button } from 'semantic-ui-react';
 import firebase from '../fireBase';
 import {connect} from 'react-redux';
+import {setCurrentChannel} from '../redux/Actions/channelsAction';
 
 class Channels extends Component {
     state = {
+
+        activeChannel:'',
+        firstLoad: true,
         channels: [],
         modalStatus: false,
         title: '',
@@ -73,9 +77,28 @@ class Channels extends Component {
             console.log(loadedChanels);
             this.setState({
                 channels: loadedChanels
-            })
+            }, ()=>{this.loadFirstChannel()})
         })
     }
+
+    loadFirstChannel =()=> {
+        if (this.state.firstLoad && this.state.channels.length>0) {
+            this.changeActiveChanel(this.state.channels[0])
+           // this.props.setCurrentChannel(this.state.channels[0]);
+            //this.showActiveChanel(this.state.channels[0]);
+        }
+        this.setState ({
+            firstLoad: false
+        })
+
+    }
+     
+     changeActiveChanel=(el)=> {
+        this.props.setCurrentChannel(el)
+        this.setState({
+            activeChannel:el.id
+        })
+     }
 
 
 
@@ -83,7 +106,7 @@ class Channels extends Component {
         const { channels, modalStatus} = this.state;
         return (
             <React.Fragment>
-                <Menu.Menu style={{ paddingBottom: '2rem' }}>
+                <Menu.Menu style={{ paddingBottom: '2rem' }} >
                     <Menu.Item>
                 <span>
                     <Icon name='exchange' /> Channels
@@ -91,9 +114,12 @@ class Channels extends Component {
                     </Menu.Item>
                     {channels.length>0 && channels.map(el=>(
                         <Menu.Item
+                        onClick={()=>this.changeActiveChanel(el)}
                         key={el.id}
                         name={el.name}
-                        style={{opacity:0.7}}>
+                        style={{opacity:0.7}}
+                        active={el.id===this.state.activeChannel? true:false}
+                        >
                         # {el.name}
                         </Menu.Item>
                     ))}
@@ -119,7 +145,18 @@ class Channels extends Component {
 function mapStateToProps (state) {
     return {
         user:state.user.currentUser,
+        channel:state.channel,
     }
 }
 
-export default connect(mapStateToProps, null) (Channels);
+function mapDispatchToProps (dispatch) {
+return {
+    setCurrentChannel: function (data) {
+        dispatch(setCurrentChannel(data))
+    }
+}
+}
+
+
+
+export default connect(mapStateToProps,  mapDispatchToProps) (Channels);
