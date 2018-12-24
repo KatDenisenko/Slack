@@ -22,6 +22,14 @@ class Channels extends Component {
         this.addListeners();
     }
 
+    componentWillUnmount() {
+        this.remoweListeners()
+    }
+
+    remoweListeners =()=> {
+        this.state.channelsRef.off()
+    }
+
     closeModal = () => {
         this.setState(previous => ({
             modalStatus: !previous.modalStatus,
