@@ -1,26 +1,17 @@
-// import React, { Component } from 'react';
 
-// class Chanels extends Component {
-//     render() {
-//         return (
-//             <div>
-                
-//             </div>
-//         );
-//     }
-// }
-
-// export default Chanels;
 
 import React, { Component } from 'react';
 import { Menu, Icon, Modal, Form, Button } from 'semantic-ui-react';
+import firebase from '../fireBase';
+import {connect} from 'react-redux';
 
 class Channels extends Component {
     state = {
         channels: [],
-              modalStatus: false,
+        modalStatus: false,
         title: '',
         description: '',
+        channelsRef: firebase.database().ref('channels'),//получаем ссылку на channels в firebase.
     }
     closeModal = () => {
         this.setState(previous => ({
@@ -34,8 +25,46 @@ class Channels extends Component {
             [name]: value,
         })
     }
+
+    handleSubmit =(e)=> {
+        e.preventDefault();
+        if (this.state.title && this.state.description) {
+            this.addChannel();
+        }
+    }
+    addChannel =()=> {
+        const {title, description,channelsRef }=this.state;
+        const key=channelsRef.push().key;
+        const newChanel = {
+            id: key,
+            name: title,
+            details:description,
+            createdBy: {
+                name:this.props.user.displayName,
+                avatar: this.props.user.photoURL,
+            }
+        }
+        channelsRef
+        .child(key)
+        .update(newChanel)
+        .then (()=>{
+            this.setState({
+                title: '',
+                description: '',
+
+            })
+            this.closeModal();
+            console.log('newChanel');
+        })
+        .catch(err=>console.log(err))
+       
+       //console.log(this.props.user);
+    }
+
+
+
     render() {
-        const { channels, modalStatus } = this.state;
+        const { channels, modalStatus} = this.state;
         return (
             <React.Fragment>
                 <Menu.Menu style={{ paddingBottom: '2rem' }}>
@@ -48,11 +77,13 @@ class Channels extends Component {
                 <Modal open={modalStatus} onClose={this.closeModal} style={{ background: '#fff' }} size='large' dimmer='blurring' > 
                     <Modal.Header >Add a channel</Modal.Header>
                     <Modal.Content style={{ marginTop: '2rem', marginBottom:'2rem'}} >
+                        <Form onSubmit ={this.handleSubmit}>
                         <Form.Input  fluid name='title' placeholder='Channel name' type='text' onChange={this.handleChange} />
-                        <Form.Input  style={{ marginTop: '2rem'}}  placeholderPosition='right' fluid name='description' placeholder='Channel description' type='text' onChange={this.handleChange} />
+                        <Form.Input  style={{ marginTop: '2rem'}}   fluid name='description' placeholder='Channel description' type='text' onChange={this.handleChange} />
+                        </Form>
                     </Modal.Content>
                     <Modal.Actions>
-                        <Button color='green' size='large'>Save</Button>
+                        <Button color='green' size='large' onClick ={this.handleSubmit}>Save</Button>
                         <Button color='red' size='large' onClick={this.closeModal}>Cancel</Button>
                     </Modal.Actions>
                 </Modal>
@@ -60,4 +91,11 @@ class Channels extends Component {
         );
     }
 }
-export default Channels;
+
+function mapStateToProps (state) {
+    return {
+        user:state.user.currentUser,
+    }
+}
+
+export default connect(mapStateToProps, null) (Channels);
