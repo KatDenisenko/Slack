@@ -6,12 +6,15 @@ import firebase from '../fireBase';
 import {connect} from 'react-redux';
 import SingleMessage from './SingleMessage';
 
+
 class Messages extends Component {
 
     state={
         messagesRef: firebase.database().ref('messages'),
         messages:[],
         loading: true,
+        
+
     }
 
     componentDidMount () {
@@ -39,8 +42,10 @@ class Messages extends Component {
         })
         
     }
+
+   
     render() {
-        const {messagesRef, messages}=this.state
+        const {messagesRef, messages, modal}=this.state
        
 
         return (
@@ -54,9 +59,9 @@ class Messages extends Component {
                 message={el}
                 user={el.user}
                 /> )}
-
                 </Comment.Group>
             </Segment>
+            
             <MessageForm messagesRef={messagesRef}/>
             </React.Fragment>
         );

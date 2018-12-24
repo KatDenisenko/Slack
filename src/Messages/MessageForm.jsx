@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Segment, Input, Button } from 'semantic-ui-react';
 import {connect} from 'react-redux';
-import firebase from '../fireBase'
+import firebase from '../fireBase';
+import FileModal from './FileModal';
 
 class MessageForm extends Component {
 
@@ -9,6 +10,13 @@ class MessageForm extends Component {
         message:'',
         loading: false,
         errors: [],
+        modal: false,
+        // modal:
+    }
+    handleModal=()=> {
+        this.setState(prev=>({
+            modal:!prev.modal,
+        }))
     }
     addMessage =()=> {
         const {message}=this.state;
@@ -61,7 +69,7 @@ class MessageForm extends Component {
 
     render() {
         return (
-            <div>
+            
                 <Segment className='message_form'>
                 <Input
                     onChange={this.handleChange}
@@ -76,10 +84,11 @@ class MessageForm extends Component {
                     value={this.state.message}/>
                 <Button.Group icon widths='2'>
                     <Button onClick = {this.addMessage} color='orange' content='Add Reply' labelPosition='left' icon='edit'/>
-                    <Button color='teal' content='Upload media' labelPosition='right' icon='cloud upload'/>
+                    <Button onClick = {this.handleModal} color='teal' content='Upload media' labelPosition='right' icon='cloud upload'/>
                 </Button.Group>
+                <FileModal modal={this.state.modal} closeModal={this.handleModal}/>
                 </Segment>
-            </div>
+            
         );
     }
 }
