@@ -12,11 +12,32 @@ class Messages extends Component {
     state={
         messagesRef: firebase.database().ref('messages'),
         messages:[],
+        searchMessages:[],
+        searchValue:'',
         loading: true,
         countUser: '',
-        
 
     }
+
+    searchMessages=()=>{
+        console.log(this.state.searchValue)
+        console.log(this.state.messages)
+        let newArr = this.state.messages.filter(el=>el.content?el.content.toLowerCase().includes(this.state.searchValue.toLowerCase()):null)
+        this.setState({
+            searchMessages:newArr
+        })
+        console.log(this.state.searchMessages)
+    }
+
+    onChangeInput=async(e)=> {
+    let key=e.target.name;
+    let value = e.target.value;
+            await this.setState({
+                [key]:value
+        
+    });
+    this.searchMessages();
+}
 
     componentDidMount () {
         
@@ -56,21 +77,33 @@ countUnicUsers = messages=> {
 }
    
     render() {
-        const {messagesRef, messages, modal}=this.state
+        const {messagesRef, messages, searchValue,searchMessages }=this.state
        
 
         return (
             <React.Fragment>
                
-                 <MessageHeader countUser={this.state.countUser} currentChanel={this.props.currentChanel}/>
+                 <MessageHeader  onChangeInput = {this.onChangeInput} value = {searchValue}countUser={this.state.countUser} currentChanel={this.props.currentChanel}/>
             <Segment>
                 <Comment.Group className='messages'>
-                {messages.length>0 && messages.map(el=>
+                {searchValue?searchMessages.map(el=>
                 <SingleMessage
                 key={el.time}
                 message={el}
                 user={el.user}
-                /> )}
+                /> ):
+                messages.length>0 && messages.map(el=>
+                    <SingleMessage
+                    key={el.time}
+                    message={el}
+                    user={el.user}
+                    /> )}
+                {/* {messages.length>0 && messages.map(el=>
+                <SingleMessage
+                key={el.time}
+                message={el}
+                user={el.user}
+                /> )} */}
                 </Comment.Group>
             </Segment>
             

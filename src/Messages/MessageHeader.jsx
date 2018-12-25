@@ -4,8 +4,10 @@ import { Segment, Header, Icon, Input } from 'semantic-ui-react';
 
 class MessageHeader extends Component {
 
+   
 
     render() {
+
         
         return (
             <Segment clearing>
@@ -30,7 +32,8 @@ class MessageHeader extends Component {
             </Header.Subheader>
             </Header>
             <Header floated='right'>
-<Input size='mini' icon='search' name='searchTerm' placeholder='Ssearch'/>
+                <Input size='mini' icon='search' name='searchValue' placeholder='Ssearch' value = {this.props.value} onChange={this.props.onChangeInput
+                }/>
             </Header>
             </Segment>
             
