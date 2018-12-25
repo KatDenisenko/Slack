@@ -31,4 +31,7 @@
 
  
 
- grid - grid.column Header Form -Form input
+17) FileModal - подгружаем картинки
+'npm i mime-types' - устанавливаем пакет который помогаем определить тип подгружаемого файла.
+работаем в компоненте MessageForm
+npm i uuid
