@@ -35,3 +35,4 @@
 'npm i mime-types' - устанавливаем пакет который помогаем определить тип подгружаемого файла.
 работаем в компоненте MessageForm
 npm i uuid
+18) new branch showChartNameUserQuantity - показываем заголовок канала и читаем юзера.

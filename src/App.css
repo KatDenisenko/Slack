@@ -12,10 +12,16 @@ html, body, .app{
 
 .message_self {
   margin-bottom: 2rem;
-  border-left: 2px solid orange;
+  border-left: 2px solid blue;
   padding-left: 0.5rem;
 }
 
 .message_image {
   padding:1rem;
+}
+
+.other_message {
+  margin-bottom: 2rem;
+  border-left: 2px solid orange;
+  padding-left: 0.5rem;
 }

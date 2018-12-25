@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { Comment, Image } from 'semantic-ui-react';
 
-const isOwmMessage = (message, user) => message.user.id === user.id ? 'message_self':'';
+const isOwmMessage = (message, user) => message.user.id === user.id ? 'message_self':'other_message';
 
 const timeFromNow = time => moment(time).fromNow()
 
@@ -18,7 +18,7 @@ const SingleMessage = ({message, user}) => {
               {timeFromNow(message.time)}
             </Comment.Metadata>
             {('image') in message?// аналог message.hasOwnProperty('image')
-            <Image className='message_image' src={message.image} width='60%/>:
+            <Image className='message_image' src={message.image} width='60%'/>:
             
             <Comment.Text>{message.content}</Comment.Text>}
             

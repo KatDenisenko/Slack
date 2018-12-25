@@ -13,6 +13,7 @@ class Messages extends Component {
         messagesRef: firebase.database().ref('messages'),
         messages:[],
         loading: true,
+        countUser: '',
         
 
     }
@@ -37,12 +38,22 @@ class Messages extends Component {
             loadedMessages.push(snap.val())
             this.setState ({
                 messages: loadedMessages,
-                loading:false,
-            })
+                loading:false,})
+        this.countUnicUsers(loadedMessages)
         })
-        
+       
     }
-
+countUnicUsers = messages=> {
+    const uniqueUserrs = messages.reduce((acc,el)=>{
+        if(!acc.includes(el.user.name)){
+            acc.push(el.user.name)
+        }
+        return  acc
+    }, [])
+    this.setState({
+        countUser: `${uniqueUserrs.length} users`
+    })
+}
    
     render() {
         const {messagesRef, messages, modal}=this.state
@@ -50,7 +61,8 @@ class Messages extends Component {
 
         return (
             <React.Fragment>
-                 <MessageHeader/>
+               
+                 <MessageHeader countUser={this.state.countUser} currentChanel={this.props.currentChanel}/>
             <Segment>
                 <Comment.Group className='messages'>
                 {messages.length>0 && messages.map(el=>

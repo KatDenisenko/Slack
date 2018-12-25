@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import { Segment, Header, Icon, Input } from 'semantic-ui-react';
 
+
 class MessageHeader extends Component {
+
+
     render() {
+        
         return (
             <Segment clearing>
             <Header
@@ -12,12 +16,17 @@ class MessageHeader extends Component {
             style={{
                 marginBottom:0
             }}>
+            {this.props.currentChanel === null?
             <span>
-                Chanel
+            Chanel
                 <Icon name='star outline' color='black'/>
-            </span>
+            </span>:
+            <span>
+            {this.props.currentChanel.name}
+                <Icon name='star outline' color='black'/>
+            </span>}
             <Header.Subheader>
-                2 users
+                {this.props.countUser}
             </Header.Subheader>
             </Header>
             <Header floated='right'>
@@ -28,5 +37,7 @@ class MessageHeader extends Component {
         );
     }
 }
+
+
 
 export default MessageHeader;
