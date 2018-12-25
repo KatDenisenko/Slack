@@ -4,7 +4,11 @@ const channel =(state=null, action)=> {
     switch (action.type) {
         case actionTypes.SET_CURRENT_CHANEL:
 
-        return action.data;
+        return {...action.data,isPrivateChannel:false};
+
+        case actionTypes.SET_PRIVATE_CHANEL:
+
+        return {...state,isPrivateChannel:action.data}
 
         default:
             return state

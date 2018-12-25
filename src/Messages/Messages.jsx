@@ -16,12 +16,13 @@ class Messages extends Component {
         searchValue:'',
         loading: true,
         countUser: '',
+        // handleChanels:true,
 
     }
 
     searchMessages=()=>{
-        console.log(this.state.searchValue)
-        console.log(this.state.messages)
+        // console.log(this.state.searchValue)
+        // console.log(this.state.messages)
         let newArr = this.state.messages.filter(el=>el.content?el.content.toLowerCase().includes(this.state.searchValue.toLowerCase()):null)
         this.setState({
             searchMessages:newArr
@@ -53,17 +54,43 @@ class Messages extends Component {
         
     }
 
+    componentDidUpdate (prevProps) {
+        if(prevProps.currentChanel&&this.props.currentChanel) {
+          
+            if (prevProps.currentChanel.name!==this.props.currentChanel.name) {
+              
+                this.addListeners(this.props.currentChanel.id)
+            }
+        }
+    }
+
     addListeners=chanelId=> {
         let loadedMessages=[];
+    //     var rootRef = this.state.messagesRef;
+    //  var usersRef = rootRef.child(chanelId);
+
+        // console.log(this.state.messagesRef.orderByChild(chanelId))
+          // false
+       this.state.messagesRef.child(chanelId).on('value', snap=>{
+       if (snap.exists()) {
         this.state.messagesRef.child(chanelId).on('child_added', snap=> {
+       
+
             loadedMessages.push(snap.val())
             this.setState ({
                 messages: loadedMessages,
                 loading:false,})
         this.countUnicUsers(loadedMessages)
         })
-       
-    }
+       } else {
+        this.setState ({
+            messages: [],
+            loading:false,})
+    this.countUnicUsers(loadedMessages)
+       } 
+    })
+}
+    
 countUnicUsers = messages=> {
     const uniqueUserrs = messages.reduce((acc,el)=>{
         if(!acc.includes(el.user.name)){

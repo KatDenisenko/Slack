@@ -8,6 +8,8 @@ const timeFromNow = time => moment(time).fromNow()
 
 
 const SingleMessage = ({message, user}) => {
+  // console.log(message);
+  // console.log(user);
     return (
       
       <Comment>
