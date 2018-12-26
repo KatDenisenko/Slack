@@ -12,7 +12,7 @@ html, body, .app{
 
 .message_self {
   margin-bottom: 2rem;
-  border-left: 2px solid blue;
+  border-left: 2px solid orange;
   padding-left: 0.5rem;
 }
 
@@ -22,6 +22,6 @@ html, body, .app{
 
 .other_message {
   margin-bottom: 2rem;
-  border-left: 2px solid orange;
+  /* border-left: 2px solid orange; */
   padding-left: 0.5rem;
 }

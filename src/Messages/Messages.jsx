@@ -124,6 +124,7 @@ countUnicUsers = messages=> {
                     key={el.time}
                     message={el}
                     user={el.user}
+                    currentUser = {this.props.currentUser}
                     /> )}
                 {/* {messages.length>0 && messages.map(el=>
                 <SingleMessage

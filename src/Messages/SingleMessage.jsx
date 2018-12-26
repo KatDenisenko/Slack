@@ -2,19 +2,19 @@ import React from 'react';
 import moment from 'moment';
 import { Comment, Image } from 'semantic-ui-react';
 
-const isOwmMessage = (message, user) => message.user.id === user.id ? 'message_self':'other_message';
+const isOwmMessage = (message, currentUser) => message.user.id === currentUser.uid ? 'message_self':'other_message';
 
 const timeFromNow = time => moment(time).fromNow()
 
 
-const SingleMessage = ({message, user}) => {
-  // console.log(message);
-  // console.log(user);
+const SingleMessage = ({message, user,currentUser}) => {
+  console.log(message);
+  console.log(currentUser);
     return (
       
       <Comment>
           <Comment.Avatar src = {message.user.avatar}/>
-          <Comment.Content className={isOwmMessage(message,user)}>
+          <Comment.Content className={isOwmMessage(message,currentUser)}>
             <Comment.Author as='a'>{message.user.name}</Comment.Author>
             <Comment.Metadata>
               {timeFromNow(message.time)}
