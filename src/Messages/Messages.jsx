@@ -72,7 +72,8 @@ class Messages extends Component {
         // console.log(this.state.messagesRef.orderByChild(chanelId))
           // false
         // let b = this.state.messagesRef.child(chanelId).on('value', snap=>{let a = snap.exists()}
-       this.state.messagesRef.child(chanelId).on('value', snap=>{
+      
+       this.state.messagesRef.child(chanelId).once('value').then( snap=>{
        if (snap.exists()) {
         this.state.messagesRef.child(chanelId).on('child_added', snap=> {
        
@@ -119,6 +120,7 @@ countUnicUsers = messages=> {
                 key={el.time}
                 message={el}
                 user={el.user}
+                currentUser = {this.props.currentUser}
                 /> ):
                 messages.length>0 && messages.map(el=>
                     <SingleMessage

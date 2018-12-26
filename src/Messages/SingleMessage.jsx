@@ -13,7 +13,7 @@ const SingleMessage = ({message, user,currentUser}) => {
     return (
       
       <Comment>
-          <Comment.Avatar src = {message.user.avatar}/>
+          <Comment.Avatar src = {message.user.id === currentUser.uid?currentUser.photoURL:message.user.avatar}/>
           <Comment.Content className={isOwmMessage(message,currentUser)}>
             <Comment.Author as='a'>{message.user.name}</Comment.Author>
             <Comment.Metadata>
