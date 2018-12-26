@@ -153,7 +153,7 @@ class Channels extends Component {
 function mapStateToProps (state) {
     return {
         user:state.user.currentUser,
-        channel:state.channel,
+        channel:state.chanel,
     }
 }
 
