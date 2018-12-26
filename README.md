@@ -37,3 +37,5 @@
 npm i uuid
 18) new branch showChartNameUserQuantity - показываем заголовок канала и читаем юзера.
 19) directMessage - создаем новый компонент и подключаем в SidePanel
+
+20) npm i react-color
