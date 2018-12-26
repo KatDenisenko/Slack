@@ -6,6 +6,7 @@ import SidePanel from './SidePanel/SidePanel';
 import Messages from './Messages/Messages';
 import MetaPanel from './MetaPanel/MetaPanel';
 import { Grid } from 'semantic-ui-react';
+import {connect} from 'react-redux';
 
 class App extends Component {
 
@@ -14,7 +15,7 @@ class App extends Component {
 
   render() {
     return (
-      <Grid columns='equal' className='app'>
+      <Grid columns='equal' className='app' style={{ background:this.props.secondaryColor}}>
       <ColorPanel/>
       <SidePanel/>
       <Grid.Column style={{marginLeft:320}}>
@@ -28,4 +29,8 @@ class App extends Component {
   }
 }
 
-export default App;
+const MSTP=state=> ({
+  secondaryColor: state.colors.secondaryColor,
+})
+
+export default connect (MSTP)(App);

@@ -58,6 +58,7 @@ class MetaPanel extends Component {
            </Segment>
         );
     }
+    
 }
 
 const MSTP = state=>({

@@ -9,7 +9,7 @@ class DirectMessage extends Component {
         users: [],
         usersRef: firebase.database().ref('users'),
         connectedRef: firebase.database().ref('.info/connected'),
-        onlineRef: firebase.database().ref('omlineUsers')
+        onlineRef: firebase.database().ref('onlineUsers')
     }
 
     componentDidMount() {

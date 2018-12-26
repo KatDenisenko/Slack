@@ -36,7 +36,7 @@ class UserPanel extends Component {
     render() {
         return (
             <Grid style={{
-                background: '4c3c4c'
+                background: this.props.primaryColor
             }}>
                 <Grid.Column>
                     <Grid.Row style={{
@@ -65,6 +65,7 @@ class UserPanel extends Component {
 function mapStateToProps (state) {
     return {
         user:state.user,
+        primaryColor: state.colors.primaryColor,
     }
 }
 
